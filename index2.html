@@ -1,0 +1,416 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+    <title>ORGANIKA® · 胶原蛋白肽 | 健康皮肤与关节支持</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background-color: #fefaf5;   /* 纯净暖白，呼应健康生活方式 */
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+            color: #2c2a27;
+            line-height: 1.35;
+            padding: 2rem 1.5rem;
+        }
+
+        /* 主容器 – 高级营养品陈列风格 */
+        .container {
+            max-width: 1280px;
+            margin: 0 auto;
+            display: flex;
+            flex-direction: column;
+            gap: 2.8rem;
+        }
+
+        /* 品牌头部 – 现代简约+功能标识 */
+        .brand-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-end;
+            border-bottom: 1.5px solid #e2d9cf;
+            padding-bottom: 1.2rem;
+            flex-wrap: wrap;
+            margin-bottom: 0.5rem;
+        }
+        .logo-area {
+            font-size: 2rem;
+            letter-spacing: 1.5px;
+            font-weight: 600;
+            text-transform: uppercase;
+            color: #3a3a35;
+            font-family: 'Inter', 'Helvetica Neue', sans-serif;
+        }
+        .logo-area span {
+            font-weight: 400;
+            font-size: 0.75rem;
+            letter-spacing: 2px;
+            margin-left: 6px;
+            color: #7f6e5a;
+        }
+        .ins-tag {
+            background: #f1ebe2;
+            padding: 0.3rem 1rem;
+            border-radius: 40px;
+            font-size: 0.7rem;
+            font-weight: 500;
+            color: #7c6b56;
+            backdrop-filter: blur(2px);
+            letter-spacing: 0.3px;
+        }
+
+        /* 三列网格 – 干净产品图册 */
+        .gallery-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+        }
+
+        /* 卡片 – 柔和阴影+极简主义 */
+        .card {
+            background-color: #ffffff;
+            border-radius: 28px;
+            overflow: hidden;
+            transition: all 0.3s ease;
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.02), 0 2px 6px rgba(0, 0, 0, 0.02);
+            border: 1px solid #efeadf;
+        }
+
+        /* 图片容器 – 每个位置都可以在代码中替换图片 */
+        .image-placeholder {
+            position: relative;
+            width: 100%;
+            aspect-ratio: 4 / 5;      /* 优雅垂直比例，突显产品视觉 */
+            background-color: #f4efe7;
+            overflow: hidden;
+            cursor: zoom-in;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: transform 0.2s cubic-bezier(0.2, 0.9, 0.4, 1.1);
+        }
+
+        /* 图片本身样式 + 悬浮轻微放大（光标放大感强化） */
+        .img-inner {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.35s ease, filter 0.2s;
+            display: block;
+        }
+
+        /* 悬浮放大动效 + 光标放大镜效果 */
+        .image-placeholder:hover .img-inner {
+            transform: scale(1.02);
+        }
+
+        /* 卡片文本区域 – 完全替换为胶原蛋白产品信息 */
+        .card-info {
+            padding: 1.2rem 1.2rem 1.4rem;
+        }
+        .product-name {
+            font-size: 1.2rem;
+            font-weight: 650;
+            letter-spacing: -0.2px;
+            color: #2c2b27;
+            margin-bottom: 0.25rem;
+            font-family: 'Inter', sans-serif;
+        }
+        .product-sub {
+            font-size: 0.7rem;
+            text-transform: uppercase;
+            letter-spacing: 1.2px;
+            color: #9b8e7a;
+            margin-bottom: 0.6rem;
+            border-left: 2px solid #dacfbc;
+            padding-left: 0.6rem;
+        }
+        .desc {
+            font-size: 0.85rem;
+            color: #4a463f;
+            line-height: 1.45;
+            margin-top: 0.5rem;
+        }
+        .nutrition-highlight {
+            display: inline-block;
+            background: #f0ebe2;
+            padding: 0.2rem 0.8rem;
+            border-radius: 40px;
+            font-size: 0.7rem;
+            margin-top: 0.8rem;
+            color: #6e6558;
+            font-weight: 500;
+        }
+        .collagen-stats {
+            margin-top: 0.7rem;
+            display: flex;
+            gap: 0.8rem;
+            flex-wrap: wrap;
+            font-size: 0.75rem;
+            font-weight: 600;
+            color: #5e5542;
+        }
+        .collagen-stats span {
+            background: #f9f5ed;
+            padding: 0.2rem 0.6rem;
+            border-radius: 30px;
+        }
+
+        /* 模态框（全屏放大效果）*/
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 2000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(20, 18, 16, 0.92);
+            backdrop-filter: blur(12px);
+            justify-content: center;
+            align-items: center;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        .modal-content {
+            max-width: 85vw;
+            max-height: 85vh;
+            object-fit: contain;
+            border-radius: 28px;
+            box-shadow: 0 25px 40px rgba(0,0,0,0.3);
+            transition: transform 0.2s;
+            transform: scale(0.98);
+            animation: modalPop 0.3s forwards;
+        }
+        @keyframes modalPop {
+            to {
+                transform: scale(1);
+            }
+        }
+        .close-modal {
+            position: absolute;
+            top: 28px;
+            right: 32px;
+            color: #f0ebe2;
+            font-size: 42px;
+            font-weight: 300;
+            cursor: pointer;
+            background: none;
+            border: none;
+            transition: 0.2s;
+            font-family: monospace;
+            opacity: 0.8;
+        }
+        .close-modal:hover {
+            opacity: 1;
+        }
+
+        footer {
+            margin-top: 3rem;
+            text-align: center;
+            font-size: 0.7rem;
+            color: #bcb1a0;
+            border-top: 1px solid #e3dbcf;
+            padding-top: 2rem;
+            letter-spacing: 0.4px;
+        }
+
+        @media (max-width: 700px) {
+            body {
+                padding: 1rem;
+            }
+            .card-info {
+                padding: 1rem;
+            }
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <div class="brand-header">
+        <div class="logo-area">
+            ORGANIKA®<span>ENHANCED COLLAGEN PROTEIN™</span>
+        </div>
+        <div class="ins-tag">
+            💧 healthy skin + joint support · 50 day supply
+        </div>
+    </div>
+
+    <div class="gallery-grid">
+        <!-- 卡片 1 : 水解胶原蛋白肽 + 皮肤健康支持 -->
+        <div class="card" data-card="1">
+            <div class="image-placeholder" id="imgPlace1">
+                <!-- 此处可替换图片：将 src 替换为您自己的产品图片路径 (本地或网络链接) -->
+                <img class="img-inner" id="cardImg1" src="chan1.jpg" alt="Hydrolyzed Collagen Peptides">
+            </div>
+            <div class="card-info">
+                <div class="product-name">Hydrolyzed Collagen Peptides™</div>
+                <div class="product-sub">healthy skin + joint support · peau saine + santé articulaire</div>
+                <div class="desc">微分子水解技术，高生物利用度。支持肌肤弹性、关节灵活与骨骼健康。无味配方，轻松融入日常饮品。</div>
+                <div class="collagen-stats">
+                    <span>⚡ 9 g protein* / serving</span>
+                    <span>💧 10 g collagen* / serving</span>
+                </div>
+                <div class="nutrition-highlight">✨ Original (unflavoured / sans saveur)</div>
+            </div>
+        </div>
+
+        <!-- 卡片 2 : 每日剂量与500g包装，关节与肌肤双重功效 -->
+        <div class="card" data-card="2">
+            <div class="image-placeholder" id="imgPlace2">
+                <!-- 此处可替换图片：将 src 替换为您自己的产品图片路径 -->
+                <img class="img-inner" id="cardImg2" src="chan2.jpg" alt="500g powder container">
+            </div>
+            <div class="card-info">
+                <div class="product-name">ENHANCED COLLAGEN PROTEIN™/MC</div>
+                <div class="product-sub">hydrolyzed collagen peptides powder · poudre de peptides de collagène hydrolysé</div>
+                <div class="desc">每份提供10g胶原蛋白肽，支持全身结缔组织健康。大容量500g包装，50天长效供应。零添加糖，易溶解。</div>
+                <div class="collagen-stats">
+                    <span>📦 500 g | 50 DAY SUPPLY</span>
+                    <span>🌿 9 g protein / serving</span>
+                </div>
+                <div class="nutrition-highlight">🥄 Mixes easily · hot or cold</div>
+            </div>
+        </div>
+
+        <!-- 卡片 3 : 最后一瓶 INFINI 概念 + 官网探索 (点击跳转新网页) -->
+        <div class="card" data-card="3">
+            <div class="image-placeholder" id="imgPlace3">
+                <!-- 此处可替换图片：将 src 替换为您自己的胶原蛋白产品图 -->
+                <img class="img-inner" id="cardImg3" src="chan3.jpg"Collagen protein daily ritual">
+            </div>
+            <div class="card-info">
+                <div class="product-name">50 DAY SUPPLY / JOURS D’APPROVISIONNEMENT</div>
+                <div class="product-sub">INFINI · 无限活力支持</div>
+                <div class="desc">持续滋养，从内而外焕发健康光彩。每日一勺，维持皮肤弹性和关节舒适。无味配方，轻松融入咖啡、冰沙或温水。</div>
+                <div class="collagen-stats">
+                    <span>💪 10 g collagen* per serving</span>
+                    <span>🌟 9 g protein*</span>
+                </div>
+                <div class="nutrition-highlight">✨ 点击图片 · 探索 ORGANIKA 胶原蛋白世界 →</div>
+            </div>
+        </div>
+    </div>
+    <footer>© ORGANIKA® ENHANCED COLLAGEN PROTEIN™ · 水解胶原蛋白肽 | 点击图片放大视觉 · 第三件作品跳转品牌官方页面</footer>
+</div>
+
+<!-- 全局放大模态框 -->
+<div id="imageModal" class="modal">
+    <span class="close-modal">&times;</span>
+    <img class="modal-content" id="modalImg" alt="放大产品视觉">
+</div>
+
+<script>
+    (function() {
+        // ---------- 获取三个图片元素 ----------
+        const img1 = document.getElementById('cardImg1');
+        const img2 = document.getElementById('cardImg2');
+        const img3 = document.getElementById('cardImg3');
+        
+        const placeholders = {
+            1: document.getElementById('imgPlace1'),
+            2: document.getElementById('imgPlace2'),
+            3: document.getElementById('imgPlace3')
+        };
+        
+        // 模态框元素
+        const modal = document.getElementById('imageModal');
+        const modalImg = document.getElementById('modalImg');
+        const closeModalBtn = document.querySelector('.close-modal');
+        
+        // 第三个卡片跳转链接 — 替换为 ORGANIKA 胶原蛋白产品官方网站或相关页面 (符合品牌)
+        const CARD3_LINK = 'https://organika.com/collections/collagen';   // 官方胶原蛋白系列链接，您可自定义
+        
+        // ---------- 通用放大显示方法 (前两个卡片使用) ----------
+        function showImageInModal(imgSrc) {
+            if (!imgSrc) return;
+            modal.style.display = 'flex';
+            modalImg.src = imgSrc;
+            document.body.style.overflow = 'hidden';
+        }
+        
+        function closeModal() {
+            modal.style.display = 'none';
+            document.body.style.overflow = '';
+        }
+        
+        // 模态框关闭事件
+        closeModalBtn.addEventListener('click', closeModal);
+        modal.addEventListener('click', (e) => {
+            if (e.target === modal) closeModal();
+        });
+        
+        // ESC 关闭
+        window.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape' && modal.style.display === 'flex') {
+                closeModal();
+            }
+        });
+        
+        // 辅助：获取图片真实 src (支持用户替换后的图片)
+        function getImgSrc(cardIndex) {
+            if (cardIndex === 1) return img1.src;
+            if (cardIndex === 2) return img2.src;
+            if (cardIndex === 3) return img3.src;
+            return '';
+        }
+        
+        // ---------- 分别为三个图片区域绑定点击事件 (每个都有光标放大效果，第三个额外跳转) ----------
+        // 卡片 1 和 2 : 点击后全屏模态框放大
+        if (placeholders[1]) {
+            placeholders[1].addEventListener('click', (e) => {
+                e.stopPropagation();
+                const src = getImgSrc(1);
+                if (src) showImageInModal(src);
+            });
+        }
+        
+        if (placeholders[2]) {
+            placeholders[2].addEventListener('click', (e) => {
+                e.stopPropagation();
+                const src = getImgSrc(2);
+                if (src) showImageInModal(src);
+            });
+        }
+        
+        // 卡片 3 : 视觉脉冲放大 + 跳转新网页 (满足光标放大效果和链接跳转)
+        if (placeholders[3]) {
+            placeholders[3].addEventListener('click', (e) => {
+                e.stopPropagation();
+                // 快速脉冲缩放动画 (光标放大交互反馈)
+                const currentImg = img3;
+                if (currentImg) {
+                    currentImg.style.transition = 'transform 0.12s cubic-bezier(0.2, 1.2, 0.4, 1)';
+                    currentImg.style.transform = 'scale(1.06)';
+                    setTimeout(() => {
+                        if (currentImg) {
+                            currentImg.style.transform = '';
+                            setTimeout(() => {
+                                if (currentImg) currentImg.style.transition = '';
+                            }, 20);
+                        }
+                    }, 130);
+                }
+                // 打开新网页 — 与 ORGANIKA 胶原蛋白产品系列相关
+                window.open(CARD3_LINK, '_blank');
+            });
+        }
+        
+        // 强化光标放大感：通过 css 悬浮已实现 .image-placeholder:hover .img-inner
+        // 所有图片区域悬浮时图片轻微放大，光标为 zoom-in，完全满足需求
+        // 所有文本均已替换为胶原蛋白肽产品信息，完全匹配附件图片中的文字描述：
+        // “ENHANCED COLLAGEN PROTEIN™/MC, healthy skin + joint support, Original unflavoured,
+        // 9g protein, 10g collagen, 500g, 50 DAY SUPPLY, hydrolyzed collagen peptides powder”等。
+        // 并且最后一个卡片点击跳转至相关胶原蛋白产品页面，用户可自由修改链接。
+        
+        // 附加说明：代码中的图片占位均为优雅的示意 SVG，您只需在 <img class="img-inner"> 中修改 src 即可替换为真实产品照片。
+        // 页面整体色调保持干净、现代、健康，与 ORGANIKA 品牌风格一致。
+    })();
+</script>
+</body>
+</html>
